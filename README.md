@@ -2,22 +2,22 @@
 
 ## Sommaire
 
-- Introduction
-- Prérequis
-    - Matériels
-    - Logiciels
-- Installation du systèmes d'exploitation et configurations de base
-- Mise à jour des logiciels
-- Installation de Docker
-- Installation de CertBot
-- Installation de Vaultwarden
-- Accès à Vaultwarden en HTTP
-- Accès à Vaultwarden en HTTPs
-    - Configuration de la Box Internet (LiveBox 5)
-    - Définition d'un nom d'hôte public pour l'accès à Vaultwarden
-    - Obtention d'un nouveau certificat
-    - Démarrage de Vaultwarden en HTTPs
-
+- [Introduction](#introduction)
+- [Prérequis](#prérequis)
+    - [Matériels](#matériels)
+    - [Logiciels](#logiciels)
+- [Installation du systèmes d'exploitation et configurations de base](#installation-du-systèmes-dexploitation-et-configurations-de-base)
+- [Mise à jour des logiciels](#mise-à-jour-des-logiciels)
+- [Installation de Docker](#installation-de-docker)
+- [Installation de CertBot](#installation-de-certbot)
+- [Installation de Vaultwarden](#installation-de-vaultwarden)
+- [Accès local à Vaultwarden en HTTP](#accès-local-à-vaultwarden-en-http)
+- [Accès distant à Vaultwarden en HTTPs](#accès-distant-à-vaultwarden-en-https)
+    - [Configuration de la Box Internet (LiveBox 5)](#configuration-de-la-box-internet-livebox-5)
+    - [Définition d'un nom d'hôte public pour l'accès à Vaultwarden](#définition-dun-nom-dhôte-public-pour-laccès-à-vaultwarden)
+    - [Obtention d'un nouveau certificat](#obtention-dun-nouveau-certificat)
+    - [Démarrage de Vaultwarden en HTTPs](#démarrage-de-vaultwarden-en-https)
+- [Webographie](#webographie)
 ## Introduction
 
 [Vaultwarden](https://github.com/dani-garcia/vaultwarden) est une implémentation non officielle du gestionnaire de mots de passe [Bitwarden](https://bitwarden.com/).
@@ -64,9 +64,9 @@ Cliquer sur le menu Interfaces puis activer ou désactiver les services selon vo
 
 ## Mise à jour des logiciels
 
-Une fois le système d'exploitation installé et le Raspberry Pi initialisé, mettre à jour les logiciels installés par défaut.
+Une fois le système d'exploitation installé et le Raspberry Pi initialisé, mettre à jour les logiciels installés.
 
-Executer les commandes suivantes dans un terminal :
+Exécuter les commandes suivantes dans un terminal :
 
 ``` BASH
 sudo apt update
@@ -105,7 +105,7 @@ docker ps
 **Remarque** : Si le conteneur Vaultwarden est démarré, l'arrêter au préalable à l'aide de la commande suivante :
 
 ``` BASH
-sudo docker stop [ID]
+sudo docker stop vaultwarden
 ```
 
 Installer l'application CertBot de *Let's Encrypt* :
@@ -124,7 +124,7 @@ docker pull vaultwarden/server:latest
 
 ## Accès local à Vaultwarden en HTTP
 
-**Remarque** : Bien que l'utilisation temporaire d'un gestionnaire de mots de passe en HTTP puisse s'avérer pratique lors de tests, ce mode de fonctionnement n'est pas recommandé à long terme d'un point de vue sécuritaire. Il est préférable de privilégier une solution reposant sur le protocole HTTPS pour une utilisation pérenne, afin de mieux protéger vos identifiants.
+**Remarque** : Bien que l'utilisation temporaire d'un gestionnaire de mots de passe en HTTP puisse s'avérer pratique lors de tests, ce mode de fonctionnement n'est pas recommandé à long terme d'un point de vue sécuritaire. Il est préférable de privilégier une solution reposant sur le protocole HTTPs pour une utilisation pérenne, afin de mieux protéger vos identifiants.
 
 Démarrer le conteneur Vaultwarden en HTTP :
 
@@ -256,3 +256,12 @@ Exemple :
 ``` TEXT
 https://christ0u.dynv6.net/
 ```
+
+## Webographie
+
+- [Installer Bitwarden sur Raspberry Pi : Le guide Ultime](https://raspberrytips.fr/installer-bitwarden-sur-raspberry-pi/) - © Patrick Fromaget
+- [Dépôt GitHub Vaultwarden](https://github.com/dani-garcia/vaultwarden)
+- [Site web officiel Bitwarden](https://bitwarden.com/)
+- [Site web officiel Raspberry](https://www.raspberrypi.com/)
+- [Site web officiel Docker Hub](https://hub.docker.com/)
+- [Site web officiel Dynv6](https://dynv6.com/)
