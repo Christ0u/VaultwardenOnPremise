@@ -14,10 +14,11 @@
 - [Accès local à Vaultwarden en HTTP](#accès-local-à-vaultwarden-en-http)
 - [Accès distant à Vaultwarden en HTTPs](#accès-distant-à-vaultwarden-en-https)
     - [Configuration de la Box Internet (LiveBox 5)](#configuration-de-la-box-internet-livebox-5)
-    - [Définition d'un nom d'hôte public pour l'accès à Vaultwarden](#définition-dun-nom-dhôte-public-pour-laccès-à-vaultwarden)
+    - [Définition d'une URL personnalisée pour l'accès à Vaultwarden](#définition-dune-url-personnalisée-pour-laccès-à-vaultwarden)
     - [Obtention d'un nouveau certificat](#obtention-dun-nouveau-certificat)
     - [Démarrage de Vaultwarden en HTTPs](#démarrage-de-vaultwarden-en-https)
 - [Webographie](#webographie)
+
 ## Introduction
 
 [Vaultwarden](https://github.com/dani-garcia/vaultwarden) est une implémentation non officielle du gestionnaire de mots de passe [Bitwarden](https://bitwarden.com/).
@@ -174,7 +175,7 @@ Ouvrir la page `Réseau`
 |:-------------------:|:------------:|:------------:|:---------:|:-----------:|:----------:|
 |     Vaultwarden     |      443     |      443     |    TCP    | raspberrypi |   Toutes   |
 
-### Définition d'un nom d'hôte public pour l'accès à Vaultwarden
+### Définition d'une URL personnalisée pour l'accès à Vaultwarden
 
 Se rendre sur le [site de Dynv6](https://dynv6.com/) et se connecter ou, à défaut, se créer un compte.
 
@@ -186,26 +187,22 @@ Cliquer sur le bouton `Create new Zone`.
 
 Définir les différents champs selon le schéma suivant :
 
-|   Name   |   Domain  | IPv4 Address | IPv6 prefix |
-|:--------:|:---------:|:------------:|:-----------:|
-| christ0u | dynv6.net |    X.X.X.X   |      /      |
+|   Name  |   Domain   | IPv4 Address | IPv6 prefix |
+|:-------:|:----------:|:------------:|:-----------:|
+| example | domain.net |    X.X.X.X   |      /      |
 
-**Remarque** : L'adresse IP attendue correspond à l'[adresse IPv4 publique de votre box internet](https://ipinfo.io/).
+**Remarques** :
+- Il est possible de choisir un domaine au choix parmis `dns.army`, `dns.navy`, `dynv6.net`, `v6.army`, `v6.navy` et `v6.rocks`.
+- L'adresse IP attendue correspond à l'[adresse IPv4 publique de votre box internet](https://ipinfo.io/).
 
 Pour finir, cliquer sur le bouton `Create Zone`.
 
 ### Obtention d'un nouveau certificat
 
-Générer un certificat en exécutant la commande suivante en remplaçant `<example.domaine.com>` par le nom d'hôte défini précédemment :
+Générer un certificat en exécutant la commande suivante en remplaçant `<example.domain.net>` par l'URL personnalisée définie précédemment :
 
 ``` BASH
-sudo certbot certonly -d <example.domaine.com>
-```
-
-Exemple :
-
-``` BASH
-sudo certbot certonly -d christ0u.dynv6.net
+sudo certbot certonly -d <example.domain.net>
 ```
 
 L'invite suivante apparait :
@@ -223,18 +220,11 @@ Entrer `1` puis presser la touche `Entrée`.
 
 Le certificat a été généré avec succès.
 
-Copier les fichiers de certificats générés dans un nouveau dossier en remplaçant `<example.domaine.com>` par le nom d'hôte défini précédemment :
+Copier les fichiers de certificats générés dans un nouveau dossier en remplaçant `<example.domain.net>` par l'URL personnalisée définie précédemment :
 
 ``` BASH
-sudo cp /etc/letsencrypt/live/<example.domaine.com>/fullchain.pem /ssl/keys/certs.pem
-sudo cp /etc/letsencrypt/live/<example.domaine.com>/privkey.pem /ssl/keys/key.pem
-```
-
-Exemple : 
-
-``` BASH
-sudo cp /etc/letsencrypt/live/christ0u.dynv6.net/fullchain.pem /ssl/keys/certs.pem
-sudo cp /etc/letsencrypt/live/christ0u.dynv6.net/privkey.pem /ssl/keys/key.pem
+sudo cp /etc/letsencrypt/live/<example.domain.net>/fullchain.pem /ssl/keys/certs.pem
+sudo cp /etc/letsencrypt/live/<example.domain.net>/privkey.pem /ssl/keys/key.pem
 ```
 
 ### Démarrage de Vaultwarden en HTTPs
@@ -245,16 +235,10 @@ Démarrer le conteneur Vaultwarden en HTTPs :
 docker run -d --name vaultwarden -e ROCKET_TLS='{certs="/ssl/certs.pem",key="/ssl/key.pem"}' -v /ssl/keys/:/ssl/ -v /vw-data/:/data/ -p 443:80 vaultwarden/server:latest
 ```
 
-Démarrer un navigateur et y entrer l'adresse suivante en remplaçant `<example.domaine.com>` par le nom d'hôte défini précédemment.
+Démarrer un navigateur et y entrer l'adresse suivante en remplaçant `<example.domain.net>` par l'URL personnalisée définie précédemment.
 
 ``` TEXT
-https://<example.domaine.com>/
-```
-
-Exemple :
-
-``` TEXT
-https://christ0u.dynv6.net/
+https://<example.domain.net>/
 ```
 
 ## Webographie
